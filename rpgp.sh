@@ -1,5 +1,6 @@
 #!/bin/bash
-#Autors: Jose Angel Morena, Joan Jara, Aleix Iglesias
+#Autors: Grup 1A; Jose Angel Morena, Joan Jara, Aleix Iglesias
+#Descripcio: Script que configura els permisos dels fitxers que se troben a un fitxer que es passa per parametre
 
 if [[ -e "$1" && -f "$1" ]]; then
 	while read nom grup permisos fitxer; do
@@ -34,7 +35,7 @@ if [[ -e "$1" && -f "$1" ]]; then
 	done < "$1"	#que passaria si poses 3<, en lloc de < (?)
 
 else
-	echo "No existeix el fitxer o es un directori..." >&2
+	echo "No existeix el fitxer o es un directori... $1" >&2
 fi
 
 #me encontrare la salida de varios ficheros, tipo 1er script, 
