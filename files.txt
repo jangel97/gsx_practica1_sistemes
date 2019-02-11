@@ -1,0 +1,5 @@
+/home/milax/Escriptori/rpgp.sh
+/home/milax/Escriptori/
+okdhokdhgkpdhfn
+/home/milax/Escriptori/files.txt
+/etc/systemd

@@ -2,6 +2,39 @@
 #Autors: Grup 1A; Jose Angel Morena, Joan Jara, Aleix Iglesias
 #Descripcio: Script que configura els permisos dels fitxers que se troben a un fitxer que es passa per parametre
 
+
+usage()
+{
+
+	echo "Que fa el script?Rep un fitxer per parametre i modifica els permisos dels determinats fitxers, preguntant al usuari, fitxer per fitxer."
+	echo "Quines opcions admet?No admet cap opció."
+	echo "Quins parametres hem de posar?Hem de passar un fitxer per parametre, no admet més parametres."
+	echo "Es pot executar per qualsevol usuari"
+
+}
+
+wrong_option(){
+
+	echo "Nomes s'admet l'opcio 'h'... no cap altra" 
+}
+
+
+while getopts "h" o; do
+	case "${o}" in
+		h)
+			usage
+			exit 0
+			;;
+		*)
+			wrong_option
+			exit 1
+			;;
+	esac
+done
+
+
+shift $((OPTIND-1))
+
 if [[ -e "$1" && -f "$1" ]]; then
 	while read nom grup permisos fitxer; do
 		if [ -e $fitxer ]; then
@@ -14,16 +47,32 @@ if [[ -e "$1" && -f "$1" ]]; then
 				read -p "Esta segur de modificar els permisos per a aquests (y/n)" yn < /dev/tty	#redireccio al terminal
 				if [[ $yn == 'Y' || $yn == 'y' ]]; then
 					if [ "$p" != "$permisos" ]; then
-						chmod $permisos $fitxer
-						echo "Els permisos del fitxer: $fitxer, han sigut modificats"
+						if  chmod $permisos $fitxer ; then
+							echo "Els permisos del fitxer: $fitxer, han sigut modificats"
+						else
+							if [ $? -ne 0 ]; then 
+								echo "Codi d'error:  $?"
+				 			fi
+					 	fi		
 					fi
 					if [ "$u" != "$nom" ]; then
-						chown $nom $fitxer
-						echo "El propietari del fitxer: $fitxer, ha canviat a $nom"
+						if chown $nom $fitxer ; then
+							echo "El propietari del fitxer: $fitxer, ha canviat a $nom"
+						else
+							if [ $? -ne 0 ]; then 
+								echo "Codi d'error:  $?"
+				 			fi						
+						fi
+
 					fi
 					if [ "$g" != "$grup" ]; then
-						chgrp $grup $fitxer
-						echo "El grup del fitxer: $fitxer, ha canviat a $grup"
+						if chgrp $grup $fitxer ; then
+							echo "El grup del fitxer: $fitxer, ha canviat a $grup"
+						else
+							if [ $? -ne 0 ]; then 
+								echo "Codi d'error:  $?"
+				 			fi					
+						fi
 					fi					
 				
 				fi
@@ -38,6 +87,4 @@ else
 	echo "No existeix el fitxer o es un directori... $1" >&2
 fi
 
-#me encontrare la salida de varios ficheros, tipo 1er script, 
-#fichero por ficher habra q ir... quieres cmabiar esto por esto?
-#si hay diferencias se cambia
+exit 0
