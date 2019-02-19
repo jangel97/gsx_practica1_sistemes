@@ -3,3 +3,4 @@
 okdhokdhgkpdhfn
 /home/milax/Escriptori/files.txt
 /etc/systemd
+/home/milax/gsx_practica1_sistemes/eri c.txt

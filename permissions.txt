@@ -1,5 +1,3 @@
-milax milax 644 /home/milax/Escriptori/files.txt
-milax milax 733 /home/milax/Escriptori/DeepLearningFlappyBird
-milax milax 222 pckdnmcpd
 milax milax 755 /home/milax/Escriptori/
-milax milax 655 /etc/systemd
+root root 755 /etc/systemd
+mysql mysql 666 /home/milax/gsx_practica1_sistemes/eri c.txt

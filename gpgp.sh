@@ -43,6 +43,7 @@ if [[ $# -eq 0 || -z "$1" ]]; then
 fi       
 
 if [[ -e "$1" && -f "$1" ]]; then
+	IFS=$'\n'
 	for fitxer in $(cat "$1");do
 		if [ -e $fitxer ]; then
 			stat -c "%U %G %a %n" $fitxer | tee -a ./permissions.txt
@@ -50,6 +51,7 @@ if [[ -e "$1" && -f "$1" ]]; then
 			echo "Error Fitxer $fitxer no existeix o es tracta de un directori" >&2
 		fi
 	done
+	unset IFS
 else 
 	echo "Error Fitxer "$1" no existeix o es tracta de un directori" >&2
 
