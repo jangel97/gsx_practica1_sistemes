@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# parm1: usuari
+
+echo "$1 hard nproc $2" >> /etc/security/limits.conf
+#aixo ja limita l bash, ja que aquesta es un proces del usuari
+
+
+a=/sys/fs/cgroup/cpuset/coreProcess
+
+mkdir $a
+
+echo $1 > "$a/cpuset.cpus" #cpu$1 per al proces
+echo 0 > "$a/cpuset.mems" #assignem el node 0 el per defecte
+
+echo $$ > "$a/tasks" 

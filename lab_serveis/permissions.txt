@@ -1,0 +1,2 @@
+milax milax 755 /home/milax/Escriptori/loko
+mysql mysql 666 /home/milax/gsx_practica1_sistemes/joan

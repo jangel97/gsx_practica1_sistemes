@@ -1,0 +1,38 @@
+amb la opcio ps -o pid, tid, ...
+
+la "o" ens serveix per a formatar la sortida de la comanda
+
+si mirem el man trobarem el PROCESS STATE CODES
+
+ctrl+alt+F1/F2.../F6 ->CONSOLA
+ctrl+alt+F7 ->SORTIR
+ps -o uid -o pid -u milax
+
+echo $$ -> pid de la nostra bash
+
+/proc/$(echo $$)/cpuset -> cpu sassignada al proces
+ls -l /proc/$(echo $$)/exe -> comando ejecutado
+
+/etc/secutiry/limits.conf -> 
+	fitxer per modificar limit de numero de processos
+	numero de logins
+	varies coses jaj
+	
+time ps -> temps en fer les tasques
+
+
+lastcomm per veure totes les comandes fetes correctament... per a funcionar s'ha d'engegar el accountingamb la comnada: sudo accton on ; si la comanda no existeix, s'ha de fer un apt-get install acct
+
+si el proces no ha acabat, no sortira al lastcomm
+
+lastcomm ls
+
+lastcomm ls milax
+
+chmod 644 /var/..
+
+6:read and execute
+4:read
+4:read
+
+cgroups es un sistema de fitxers virtuals ; a la ram
