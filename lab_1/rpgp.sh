@@ -39,7 +39,6 @@ if [[ -e "$1" && -f "$1" ]]; then
 	#IFS=$'\n'
 	while read nom grup permisos fitxer; do
 		if [ -e "$fitxer" ]; then
-			echo "FITXEEEEEEEEEEER: $fitxer" 
 			u=$(stat -c %U "$fitxer")	#possible millora amb awk (?)
 			g=$(stat -c %G "$fitxer")
 			p=$(stat -c %a "$fitxer")
@@ -83,7 +82,7 @@ if [[ -e "$1" && -f "$1" ]]; then
 		else 
 			echo "Error: El fitxer $fitxer no existeix" >&2
 		fi
-	done < "$1"	#que passaria si poses 3<, en lloc de < (?)
+	done < "$1"	
 	unset IFS
 else
 	echo "No existeix el fitxer o es un directori... $1" >&2
