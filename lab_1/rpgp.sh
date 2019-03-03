@@ -19,7 +19,7 @@ wrong_option(){
 }
 
 
-while getopts "h" o; do
+while getopts "h" o; do #OPCIO H d'ajut
 	case "${o}" in
 		h)
 			usage
@@ -35,20 +35,19 @@ done
 
 shift $((OPTIND-1))
 
-if [[ -e "$1" && -f "$1" ]]; then
-	#IFS=$'\n'
-	while read nom grup permisos fitxer; do
+if [[ -e "$1" && -f "$1" ]]; then	#SI EXISTEIX EL FITXER QUE ES PASSA PER PARAMETRE
+	while read nom grup permisos fitxer; do	#LLEGIM EL FITXER, CAMP PER CAMP
 		if [ -e "$fitxer" ]; then
-			u=$(stat -c %U "$fitxer")	#possible millora amb awk (?)
+			u=$(stat -c %U "$fitxer")	
 			g=$(stat -c %G "$fitxer")
 			p=$(stat -c %a "$fitxer")
-			if [[ "$p" != "$permisos" || "$u" != "$nom" || "$g" != "$grup" ]]; then
+			if [[ "$p" != "$permisos" || "$u" != "$nom" || "$g" != "$grup" ]]; then	#SI ELS PERMISOS SON DIFERENTS
 				echo "Informacio al fitxer: $nom , $grup, $permisos, $fitxer"
 				echo "Informacio real/actual: $u, $g, $p, $fitxer"
-				read -p "Esta segur de modificar els permisos per a aquests (y/n)" yn < /dev/tty	#redireccio al terminal
+				read -p "Esta segur de modificar els permisos per a aquests (y/n)" yn < /dev/tty	#PREGUNTEM SI ES VOLEN MODFICAR ELS PERMISOS I REDIRIGIM AL TERMINAL
 				if [[ $yn == 'Y' || $yn == 'y' ]]; then
 					if [ "$p" != "$permisos" ]; then
-						if  chmod $permisos "$fitxer" ; then
+						if  chmod $permisos "$fitxer" ; then	#EXECUTEM CHMOD
 							echo "Els permisos del fitxer: $fitxer, han sigut modificats"
 						else
 							if [ $? -ne 0 ]; then 
@@ -57,7 +56,7 @@ if [[ -e "$1" && -f "$1" ]]; then
 					 	fi		
 					fi
 					if [ "$u" != "$nom" ]; then
-						if chown $nom "$fitxer" ; then
+						if chown $nom "$fitxer" ; then	#EXECUTEM CHOWN
 							echo "El propietari del fitxer: $fitxer, ha canviat a $nom"
 						else
 							if [ $? -ne 0 ]; then 
@@ -67,7 +66,7 @@ if [[ -e "$1" && -f "$1" ]]; then
 
 					fi
 					if [ "$g" != "$grup" ]; then
-						if chgrp $grup "$fitxer" ; then
+						if chgrp $grup "$fitxer" ; then	#EXECUTEM CHGRP
 							echo "El grup del fitxer: $fitxer, ha canviat a $grup"
 						else
 							if [ $? -ne 0 ]; then 
@@ -80,10 +79,9 @@ if [[ -e "$1" && -f "$1" ]]; then
 				echo
 			fi
 		else 
-			echo "Error: El fitxer $fitxer no existeix" >&2
+			echo "Error: El fitxer $fitxer no existeix" >&2	#MOSTRA ERROR SI EL FITXER DE PARAMETRE NO EXISTEIX
 		fi
 	done < "$1"	
-	unset IFS
 else
 	echo "No existeix el fitxer o es un directori... $1" >&2
 fi

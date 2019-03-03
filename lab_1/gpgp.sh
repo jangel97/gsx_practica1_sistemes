@@ -20,7 +20,7 @@ wrong_option(){
 }
 
 
-while getopts "h" o; do
+while getopts "h" o; do #OPCIO h D'AJUT
 	case "${o}" in
 		h)
 			usage
@@ -37,22 +37,22 @@ done
 shift $((OPTIND-1))
 
 
-if [[ $# -eq 0 || -z "$1" ]]; then
+if [[ $# -eq 0 || -z "$1" ]]; then	#CONTROL NUMERO D'ARGUMENTS
 	echo "No has posat argument (path al fitxer)"
  	exit 2
 fi       
 
-if [[ -e "$1" && -f "$1" ]]; then
-	IFS=$'\n'
-	for fitxer in $(cat "$1");do
-		if [ -e $fitxer ]; then
-			stat -c "%U %G %a %n" $fitxer | tee -a ./permissions.txt
+if [[ -e "$1" && -f "$1" ]]; then	#SI EXISTEIX EL FITXER I NO ES UN DIRECTORI
+	IFS=$'\n'	#ESPECIFIQUEM 'TOQUEN' ES EL CARACTER DE SALT DE LINEA
+	for fitxer in $(cat "$1");do	# PER A CADASCUN DELS FITXERS QUE HI HAN
+		if [ -e $fitxer ]; then	#SI EXISTEIX EXECUTEM LA COMANDA stat
+			stat -c "%U %G %a %n" $fitxer | tee -a ./permissions.txt	#POSEM AL FITXER AL MATEIX TEMPS QUE A LA SORTIDA STANDARD
 		else
-			echo "Error Fitxer $fitxer no existeix o es tracta de un directori" >&2
+			echo "Error Fitxer $fitxer no existeix o es tracta de un directori" >&2	#SI NO EXISTEIX EL FITXER, POSEM ERROR
 		fi
 	done
 	unset IFS
-else 
+else 	#SI EL FITXER QUE ES PASSA PER PARAMETRE NO EXISTEIX O ES UN DIRECTORI ES MOSTRA ERROR
 	echo "Error Fitxer "$1" no existeix o es tracta de un directori" >&2
 
 fi
